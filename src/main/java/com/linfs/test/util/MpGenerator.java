@@ -12,6 +12,7 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
  * @author linfs
  * @create 2019-10-29-9:00
  * 参考：https://blog.csdn.net/u014745069/article/details/80720980
+ * 代码生成器
  */
 public class MpGenerator {
 
