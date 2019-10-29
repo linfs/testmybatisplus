@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.linfs.test.bean.UserInfo;
 import com.linfs.test.service.UserInfoService;
+import com.linfs.test.util.Result;
+import com.linfs.test.util.StatusCode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,10 +82,35 @@ public class UserInfoController {
      * @return
      */
     @PostMapping("/selectbycolumn")
-    public Collection<UserInfo> getListMap(@RequestBody Map<String, Object> map) {
+    public Result getListMap(@RequestBody Map<String, Object> map) {
         Collection<UserInfo> userInfos = userInfoService.listByMap(map);
-        return userInfos;
+        return new Result(true, StatusCode.OK, "查询成功", userInfos);
     }
+
+    /**
+     * 插入学生信息
+     *
+     * @param userInfo
+     * @return
+     */
+    @PostMapping("/add")
+    public Result add(@RequestBody UserInfo userInfo) {
+        userInfoService.save(userInfo);
+        return new Result(true, StatusCode.OK, "插入成功");
+    }
+
+    /**
+     * 按要求删除
+     *
+     * @param map
+     * @return
+     */
+    @PostMapping("/deleteByMap")
+    public Result deleteByMap(@RequestBody Map<String, Object> map) {
+        userInfoService.removeByMap(map);
+        return new Result(true, StatusCode.OK, "删除成功");
+    }
+
 
 
 
