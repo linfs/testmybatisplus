@@ -5,12 +5,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.linfs.test.bean.UserInfo;
 import com.linfs.test.service.UserInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author linfs
@@ -23,16 +22,33 @@ public class UserInfoController {
     @Autowired
     private UserInfoService userInfoService;
 
+    /**
+     * 根据用户 ID 获取学生信息
+     *
+     * @param id
+     * @return
+     */
     @GetMapping("/{id}")
     public UserInfo findById(@PathVariable Long id) {
         return userInfoService.getById(id);
     }
 
+    /**
+     * 查询所有学生信息
+     *
+     * @return
+     */
     @GetMapping("/all")
     public List<UserInfo> findAll() {
         return userInfoService.list(null);
     }
 
+    /**
+     * 查询分数 >fraction 的学生信息
+     *
+     * @param fraction
+     * @return
+     */
     @GetMapping("/fraction/{fraction}")
     public IPage<UserInfo> getByFraction(@PathVariable Long fraction) {
         IPage<UserInfo> page = new Page<>();
@@ -41,5 +57,34 @@ public class UserInfoController {
         page = userInfoService.selectUserInfoByGtFraction(page, fraction);
         return page;
     }
+
+
+    /**
+     * 分页查询学生信息
+     *
+     * @param num
+     * @param size
+     * @return
+     */
+    @GetMapping("/page/{num}/{size}")
+    public IPage<UserInfo> getinfoListPage(@PathVariable Integer num, @PathVariable Integer size) {
+        IPage<UserInfo> page = new Page<>(num, size);
+        page = userInfoService.page(page, null);
+        return page;
+    }
+
+    /**
+     * 根据指定字段查询用户信息集
+     *
+     * @param map
+     * @return
+     */
+    @PostMapping("/selectbycolumn")
+    public Collection<UserInfo> getListMap(@RequestBody Map<String, Object> map) {
+        Collection<UserInfo> userInfos = userInfoService.listByMap(map);
+        return userInfos;
+    }
+
+
 
 }
