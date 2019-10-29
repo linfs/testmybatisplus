@@ -45,7 +45,7 @@ public class MpGenerator {
 
         //策略配置
         StrategyConfig strategy = new StrategyConfig();
-        strategy.setTablePrefix(new String[]{"LinFS_"});// 此处可以修改为您的表前缀
+        strategy.setTablePrefix(new String[]{"user_"});// 此处可以修改为您的表前缀
         strategy.setNaming(NamingStrategy.nochange);// 表名生成策略
         strategy.setInclude(new String[]{"user_info"}); // 需要生成的表
         // strategy.setExclude(new String[]{"test"}); // 排除生成的表
